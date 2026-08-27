@@ -12,7 +12,7 @@
   <header class="site-header">
     <div class="container">
       <nav class="navbar" aria-label="Main Navigation">
-        <a href="'{{ url_for('home') }}" class="brand-logo">
+        <a href="{{ url_for('home') }}" class="brand-logo">
           <span class="logo-icon">🧁</span>
           <span>The Muffin Stop <span style="font-size: 0.75rem; color: var(--color-caramel); border: 1px solid var(--color-caramel); padding: 0.15rem 0.5rem; border-radius: var(--radius-pill); margin-left: 0.5rem;">ADMIN</span></span>
         </a>
@@ -21,6 +21,7 @@
           <li><a href="{{ url_for('muffins') }}" class="nav-link">Muffins</a></li>
           <li><a href="{{ url_for('profile') }}" class="nav-link">Profile</a></li>
           <li><a href="{{ url_for('admin') }}" class="nav-link active">Admin Dashboard</a></li>
+          <li><a href="{{ url_for('logout') }}" class="nav-link">Logout</a></li>
         </ul>
         <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
           ☰
@@ -47,7 +48,7 @@
         <div class="stat-card">
           <div class="stat-icon">👥</div>
           <div class="stat-info">
-            <h3>142</h3>
+            <h3>{{ user_count }}</h3>
             <p>Total Registered Users</p>
           </div>
         </div>
@@ -133,7 +134,7 @@
                 <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
               </tr>
               <tr>
-                <td><img src="{{ url_for('static', filename='images/chocolate_banana_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
+                <td><img src="{{ url_for('static', filename='images/cinnamon_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
                 <td><strong>Cinnamon Banana Muffin</strong></td>
                 <td>Streusel Crumble</td>
                 <td><strong>$4.25</strong></td>
@@ -141,7 +142,7 @@
                 <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
               </tr>
               <tr>
-                <td><img src="{{ url_for('static', filename='images/cinnamon_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
+                <td><img src="{{ url_for('static', filename='images/chocolate_banana_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
                 <td><strong>Chocolate Banana Muffin</strong></td>
                 <td>Double Cocoa</td>
                 <td><strong>$4.50</strong></td>
@@ -170,27 +171,18 @@
               </tr>
             </thead>
             <tbody>
+              {% for user in users %}
               <tr>
-                <td><strong>#MS-1088</strong></td>
-                <td>Alex Rivera (alex_muffin)</td>
-                <td>2x Banana Ice Cream Muffin</td>
-                <td>$11.00</td>
-                <td><span class="status-badge status-pending">In Prep</span></td>
+                <td>#USR-{{ "%03d"|format(user["id"]) }}</td>
+                <td><strong>{{ user["username"] }}</strong></td>
+                <td>{{ user["email"] }}</td>
+                <td>
+                  <span class="status-badge">
+                    {{ user["role"]|capitalize }}
+                  </span>
+                </td>
               </tr>
-              <tr>
-                <td><strong>#MS-1087</strong></td>
-                <td>Sarah Jenkins (sarah_j)</td>
-                <td>1x Caramel Banana Muffin</td>
-                <td>$4.75</td>
-                <td><span class="status-badge status-delivered">Completed</span></td>
-              </tr>
-              <tr>
-                <td><strong>#MS-1086</strong></td>
-                <td>David Miller (dave_m)</td>
-                <td>6x Classic Banana Muffin Box</td>
-                <td>$21.00</td>
-                <td><span class="status-badge status-delivered">Completed</span></td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
@@ -209,7 +201,6 @@
                 <th>Username</th>
                 <th>Email Address</th>
                 <th>Role</th>
-                <th>Joined Date</th>
               </tr>
             </thead>
             <tbody>

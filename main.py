@@ -1,6 +1,15 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,request,redirect,url_for,session
+import sqlite3
+from werkzeug.security import check_password_hash
+import os
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY", "dev-only-secret")
+
+def get_db_connection():
+    connection = sqlite3.connect("muffin_stop.db")
+    connection.row_factory = sqlite3.Row
+    return connection
 
 #muffin ids
 muffins_data = {
@@ -53,8 +62,35 @@ def home():
     return render_template("index.html")
 
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
+
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        connection = get_db_connection()
+
+        user = connection.execute(
+            "SELECT * FROM users WHERE username = ? OR email = ?",
+            (username, username)
+        ).fetchone()
+
+        connection.close()
+
+        if user and check_password_hash(user["password_hash"], password):
+
+            session["user_id"] = user["id"]
+            session["username"] = user["username"]
+            session["role"] = user["role"]
+
+            if user["role"] == "admin":
+                return redirect(url_for("admin"))
+
+            return redirect(url_for("profile"))
+
+        return "Invalid username or password"
+
     return render_template("login.html")
 
 
@@ -73,14 +109,53 @@ def muffin(muffin_id):
     return render_template("muffin.html", muffin=muffin)
 
 
-@app.route("/profiles")
+@app.route("/profile")
 def profile():
-    return render_template("profiles.html")
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = get_db_connection()
+
+    user = connection.execute(
+        "SELECT * FROM users WHERE id = ?",
+        (session["user_id"],)
+    ).fetchone()
+
+    connection.close()
+
+    return render_template("profiles.html", user=user)
 
 
 @app.route("/admin")
 def admin():
-    return render_template("admin.html")
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session.get("role") != "admin":
+        return "Access denied", 403
+
+    connection = get_db_connection()
+
+    users = connection.execute(
+        "SELECT id, username, email, role FROM users"
+    ).fetchall()
+
+    user_count = connection.execute(
+        "SELECT COUNT(*) FROM users"
+    ).fetchone()[0]
+
+    connection.close()
+
+    return render_template(
+        "admin.html",
+        users=users,
+        user_count=user_count
+    )
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("home"))
 
 
 if __name__ == "__main__":

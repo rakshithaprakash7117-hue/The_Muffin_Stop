@@ -35,7 +35,7 @@
       <!-- DASHBOARD HEADER -->
       <div style="margin-bottom: 2.5rem;">
         <span class="section-subtitle">Customer Portal</span>
-        <h1>Welcome Back, Alex!</h1>
+        <h1>Welcome Back, {{ user["username"] }}!</h1>
         <p>Manage your account settings, favorite banana muffin picks, and bakery order history.</p>
       </div>
       <div class="dashboard-grid">
@@ -45,17 +45,17 @@
             <span>👤</span>
           </div>
           <div>
-            <h3 style="font-size: 1.35rem;">Alex Rivera</h3>
-            <p style="font-size: 0.875rem;">@alex_muffin</p>
+            <h3 style="font-size: 1.35rem;">{{ user["username"] }}</h3>
+            <p style="font-size: 0.875rem;">@{{ user["username"] }} <p>
           </div>
           <span class="badge badge-featured">⭐ VIP MUFFIN LOVER</span>
           <div style="width: 100%; border-top: 1px solid var(--border-color); padding-top: 1rem; text-align: left; font-size: 0.9rem;">
-            <p style="margin-bottom: 0.5rem;"><strong>Email:</strong> alex@example.com</p>
+            <p style="margin-bottom: 0.5rem;"><strong>Email:</strong> {{ user["email"] }}</p>
             <p style="margin-bottom: 0.5rem;"><strong>Member Since:</strong> March 2025</p>
             <p><strong>Loyalty Points:</strong> 240 pts</p>
           </div>
           <div style="width: 100%; margin-top: 0.5rem;">
-            <a href="{{ url_for('login') }}" class="btn btn-outline btn-full btn-sm">
+            <a href="{{ url_for('logout') }}" class="btn btn-outline btn-full btn-sm">
               Log Out 🚪
             </a>
           </div>

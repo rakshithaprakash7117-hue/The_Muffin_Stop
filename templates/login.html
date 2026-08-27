@@ -40,7 +40,7 @@
             <p>Welcome back to The Muffin Stop. Please enter your account credentials.</p>
           </div>
           <!-- FLASK POST COMPATIBLE FORM -->
-          <form action="/login" method="POST">
+          <form action="{{ url_for('login') }}" method="POST">
             <div class="form-group">
               <label for="username" class="form-label">Username or Email</label>
               <input type="text" id="username" name="username" class="form-input" placeholder="e.g. alex_muffin or alex@example.com" required autocomplete="username">
@@ -77,7 +77,7 @@
       </div>
       <div class="footer-grid">
         <div class="footer-brand">
-          <h3>🍌 The Muffin Stop</h3>
+          <h3>🧁The Muffin Stop</h3>
           <p>Your daily cozy destination for warm artisan banana muffins, ice cream pairings, and baked happiness.</p>
         </div>
         <div class="footer-column">

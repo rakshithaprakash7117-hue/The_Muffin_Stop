@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ muffin.name }} — The Muffin Stop</title>
+  <meta name="description" content="{{ muffin.description }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <a href="{{ url_for('home') }}" class="brand-logo">
+          <span class="logo-icon">🍌</span>
+          <span>The Muffin Stop</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="{{ url_for('home') }}" class="nav-link active">Home</a></li>
+          <li><a href="{{ url_for('muffins') }}" class="nav-link">Muffins</a></li>
+          <li><a href="{{ url_for('home') }}#our-story" class="nav-link">Our Story</a></li>
+          <li><a href="{{ url_for('login') }}" class="nav-link">Login</a></li>
+          <li><a href="{{ url_for('profile') }}" class="nav-link">Profile</a></li>
+          <li><a href="{{ url_for('admin') }}" class="nav-link btn btn-sm btn-secondary">Admin Panel</a></li>
+        </ul>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+          ☰
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container">
+      <!-- BREADCRUMBS -->
+      <nav style="margin-bottom: 2rem; font-size: 0.9rem; color: var(--text-muted);">
+        <a href="{{ url_for('home') }}">Home</a> &nbsp;/&nbsp; <a href="muffins.html">Muffins</a> &nbsp;/&nbsp; <strong style="color: var(--color-chocolate);">Banana Ice Cream Muffin</strong>
+      </nav>
+      <!-- PRODUCT DETAIL GRID -->
+      <div class="product-detail-grid">
+        <!-- LEFT: GALLERY -->
+        <div class="product-detail-gallery">
+          <img id="mainProductImage" class="product-detail-main-img" src="{{ url_for('static', filename='images/' + muffin.image) }}" alt="{{ muffin.name }}">
+
+          <div class="product-detail-thumbs">
+            <img class="thumb-img active" src="{{ url_for('static', filename='images/' + muffin.image) }}" alt="Thumbnail 1">
+            <img class="thumb-img" src="{{ url_for('static', filename='images/' + muffin.image) }}" alt="Thumbnail 2">
+            <img class="thumb-img" src="{{ url_for('static', filename='images/' + muffin.image) }}" alt="Thumbnail 3">
+          </div>
+        </div>
+        <!-- RIGHT: INFO & OPTIONS -->
+        <div class="product-detail-info">
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <span class="badge badge-new">✨ JUST LAUNCHED</span>
+            <span class="badge badge-featured">SIGNATURE DESSERT</span>
+          </div>
+          <h1 style="font-size: 2.25rem;">{{ muffin.name }}</h1>
+          <div class="product-detail-meta">
+            <div class="rating-stars">
+              ★★★★★ <span>5.0 (48 reviews)</span>
+            </div>
+          </div>
+          <div class="product-detail-price">${{ muffin.price }}</div>
+          <p>
+            {{ muffin.description }}
+          </p>
+          <!-- INGREDIENTS -->
+          <div class="ingredients-box">
+            <strong>📋 Ingredients & Allergens:</strong> Organic ripe bananas, unbleached pastry flour, pure vanilla extract, brown sugar, sweet cream butter, artisanal banana ice cream, salted caramel, toasted walnuts. Contains dairy, wheat, and tree nuts.
+          </div>
+          <!-- SERVING OPTIONS FORM (Flask POST Compatible) -->
+          <form action="/cart/add" method="POST" id="productOrderForm">
+            <input type="hidden" name="muffin_id" value="1">
+            <input type="hidden" name="muffin_name" value="Banana Ice Cream Muffin">
+            <input type="hidden" name="price" value="5.50">
+            <div class="product-options-group" style="margin-bottom: 1.5rem;">
+              <label class="options-title">1. Serving Preference:</label>
+              <div class="radio-group">
+                <label class="option-pill">
+                  <input type="radio" name="serving_temp" value="warm" checked>
+                  <span>🔥 Fresh & Warm Out of Oven</span>
+                </label>
+                <label class="option-pill">
+                  <input type="radio" name="serving_temp" value="room">
+                  <span>🌡️ Room Temperature</span>
+                </label>
+              </div>
+            </div>
+            <div class="product-options-group" style="margin-bottom: 1.5rem;">
+              <label class="options-title">2. Optional Extra Topping:</label>
+              <div class="checkbox-group">
+                <label class="option-pill">
+                  <input type="checkbox" name="extra_caramel" value="yes">
+                  <span>🍯 Extra Caramel Drizzle (+$0.50)</span>
+                </label>
+                <label class="option-pill">
+                  <input type="checkbox" name="extra_walnuts" value="yes">
+                  <span>🌰 Extra Toasted Walnuts (+$0.50)</span>
+                </label>
+              </div>
+            </div>
+            <!-- QUANTITY & CTA BUTTONS -->
+            <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+              <div>
+                <label class="options-title" style="display: block; margin-bottom: 0.5rem;">Quantity:</label>
+                <div class="quantity-control">
+                  <button type="button" class="qty-btn" id="qtyMinus">-</button>
+                  <input type="number" name="quantity" id="qtyInput" class="qty-input" value="1" min="1" max="99" readonly>
+                  <button type="button" class="qty-btn" id="qtyPlus">+</button>
+                </div>
+              </div>
+              <div style="display: flex; gap: 1rem; flex-grow: 1; align-self: flex-end;">
+                <button type="button" id="addToCartBtn" class="btn btn-primary" style="flex-grow: 1; padding: 0.85rem 1.5rem;">
+                  Add to Cart 🛒
+                </button>
+                <a href="{{ url_for('muffins') }}" class="btn btn-outline" style="padding: 0.85rem 1.25rem;">
+                  Back to Menu
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- RECOMMENDATIONS GRID -->
+      <section style="margin-top: 4rem;">
+        <h2 style="margin-bottom: 1.5rem;">You Might Also Love</h2>
+
+        <div class="product-grid">
+          <div class="product-card">
+            <div class="product-card-image">
+              <img src="{{ url_for('static', filename='images/caramel_banana_muffin.png') }}" alt="Caramel Banana Muffin">
+            </div>
+            <div class="product-card-content">
+              <div class="product-card-header">
+                <h3 class="product-card-title">Caramel Banana Muffin</h3>
+                <p class="product-card-desc">Layered with rich salted caramel drizzle and crispy banana slices.</p>
+              </div>
+              <div class="product-card-footer">
+                <span class="product-card-price">$4.75</span>
+                <a href="{{ url_for('muffin', muffin_id=5) }}" class="btn btn-sm btn-secondary">View Muffin</a>
+              </div>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-card-image">
+              <img src="{{ url_for('static', filename='images/walnut_banana_muffin.png') }}" alt="Walnut Banana Muffin">
+            </div>
+            <div class="product-card-content">
+              <div class="product-card-header">
+                <h3 class="product-card-title">Walnut Banana Muffin</h3>
+                <p class="product-card-desc">Banana muffin topped with toasted walnut halves and sugar dust.</p>
+              </div>
+              <div class="product-card-footer">
+                <span class="product-card-price">$4.50</span>
+                <a href="{{ url_for('muffin', muffin_id=4) }}" class="btn btn-sm btn-secondary">View Muffin</a>
+              </div>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-card-image">
+              <img src="{{ url_for('static', filename='images/choco_chip_muffin.png') }}" alt="Choco-Chip Banana Muffin">
+            </div>
+            <div class="product-card-content">
+              <div class="product-card-header">
+                <h3 class="product-card-title">Choco-Chip Banana</h3>
+                <p class="product-card-desc">Packed with dark chocolate chips and finished with dark chocolate drizzle.</p>
+              </div>
+              <div class="product-card-footer">
+                <span class="product-card-price">$4.25</span>
+                <a href="{{ url_for('muffin', muffin_id=3) }}" class="btn btn-sm btn-secondary">View Muffin</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <!-- COSMETIC TOAST POPUP NOTIFICATION -->
+  <div class="toast-container">
+    <div id="toastNotification" class="toast">
+      <span style="font-size: 1.25rem;">🎉</span>
+      <span>Added <strong>Banana Ice Cream Muffin</strong> to your cart!</span>
+    </div>
+  </div>
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-disclaimer-banner">
+        🎓 <strong>Educational Web Application Notice:</strong> This is a fictional bakery application designed for frontend & backend learning.
+      </div>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>🍌 The Muffin Stop</h3>
+          <p>Your daily cozy destination for warm artisan banana muffins, ice cream pairings, and baked happiness.</p>
+        </div>
+        <div class="footer-column">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('muffins') }}">All Muffins</a></li>
+            <li><a href="{{ url_for('home') }}#our-story">Our Story</a></li>
+            <li><a href="{{ url_for('login') }}">Customer Login</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Account & Admin</h4>
+          <ul class="footer-links">
+            <li><a href="{{ url_for('profile') }}">My Account</a></li>
+            <li><a href="{{ url_for('admin') }}">Bakery Admin</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Visit Us</h4>
+          <p style="font-size: 0.9rem; color: #B59F8E;">
+            142 Bakery Lane, Sweetville<br>
+            Mon – Sun: 7:00 AM – 7:00 PM<br>
+            hello@muffinstop.local
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 The Muffin Stop Bakery. Handcrafted with care.
+      </div>
+    </div>
+  </footer>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

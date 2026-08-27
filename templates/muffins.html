@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Banana Muffins — The Muffin Stop</title>
+  <meta name="description" content="Explore our full menu of freshly baked banana muffins, from Classic to Walnut, Caramel, and our newly launched Banana Ice Cream Muffin.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <a href="{{ url_for('home') }}" class="brand-logo">
+          <span class="logo-icon">🍌</span>
+          <span>The Muffin Stop</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="{{ url_for('home') }}" class="nav-link active">Home</a></li>
+          <li><a href="{{ url_for('muffins') }}" class="nav-link">Muffins</a></li>
+          <li><a href="{{ url_for('home') }}#our-story" class="nav-link">Our Story</a></li>
+          <li><a href="{{ url_for('login') }}" class="nav-link">Login</a></li>
+          <li><a href="{{ url_for('profile') }}" class="nav-link">Profile</a></li>
+          <li><a href="{{ url_for('admin') }}" class="nav-link btn btn-sm btn-secondary">Admin Panel</a></li>
+        </ul>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+          ☰
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container">
+      <!-- PAGE HEADER -->
+      <div class="section-header">
+        <span class="section-subtitle">Freshly Baked Daily</span>
+        <h1 class="section-title">The Muffin Collection</h1>
+        <p class="section-description">
+          Every muffin is built upon our classic signature banana batter, enhanced with artisan toppings, crunch, drizzling sauces, and ice cream.
+        </p>
+      </div>
+      <!-- FILTER TABS -->
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All Muffins (7)</button>
+        <button class="filter-btn" data-filter="new">✨ New Launch</button>
+        <button class="filter-btn" data-filter="classic">Classic & Nut</button>
+        <button class="filter-btn" data-filter="sweet">Sweet & Chocolate</button>
+      </div>
+      <!-- PRODUCTS GRID -->
+      <div class="product-grid">
+        <!-- 1. BANANA ICE CREAM MUFFIN (NEW) -->
+        <div class="product-card" data-category="new">
+          <div class="product-card-image">
+            <img src="{{ url_for('static', filename='images/banana_ice_cream_muffin.png') }}" alt="The Banana Ice Cream Muffin">
+            <span class="badge badge-new product-card-badge">✨ NEW LAUNCH</span>
+          </div>
+          <div class="product-card-content">
+            <div class="product-card-header">
+              <h3 class="product-card-title">Banana Ice Cream Muffin</h3>
+              <p class="product-card-desc">Warm banana muffin paired with a scoop of creamy banana ice cream & caramel sauce.</p>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">₹349</span>
+              <a href="{{ url_for('muffin', muffin_id=1) }}"
+                 class="btn btn-sm btn-secondary">
+                 View Muffin
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- 2. CLASSIC BANANA MUFFIN -->
+        <div class="product-card" data-category="classic">
+          <div class="product-card-image">
+            <img src="{{ url_for('static', filename='images/classic_banana_muffin.png') }}" alt="Classic Banana Muffin">
+            <span class="badge badge-featured product-card-badge">Original</span>
+          </div>
+          <div class="product-card-content">
+            <div class="product-card-header">
+              <h3 class="product-card-title">Classic Banana Muffin</h3>
+              <p class="product-card-desc">Simple, moist, golden banana muffin baked with pure ripe organic bananas.</p>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">₹210</span>
+             <a href="{{ url_for('muffin', muffin_id=2) }}" class="btn btn-sm btn-secondary">View Muffin</a>
+            </div>
+          </div>
+        </div>
+        <!-- 3. CHOCO-CHIP BANANA MUFFIN -->
+        <div class="product-card" data-category="sweet">
+          <div class="product-card-image">
+            <img src="{{ url_for('static', filename='images/choco_chip_muffin.png') }}" alt="Choco-Chip Banana Muffin">
+          </div>
+          <div class="product-card-content">
+            <div class="product-card-header">
+              <h3 class="product-card-title">Choco-Chip Banana Muffin</h3>
+              <p class="product-card-desc">Packed with dark chocolate chips and finished with a silky chocolate drizzle.</p>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">₹250</span>
+              <a href="{{ url_for('muffin', muffin_id=3) }}" class="btn btn-sm btn-secondary">View Muffin</a>
+            </div>
+          </div>
+        </div>
+        <!-- 4. WALNUT BANANA MUFFIN -->
+        <div class="product-card" data-category="classic">
+          <div class="product-card-image">
+            <img src="{{ url_for('static', filename='images/walnut_banana_muffin.png') }}" alt="Walnut Banana Muffin">
+          </div>
+          <div class="product-card-content">
+            <div class="product-card-header">
+              <h3 class="product-card-title">Walnut Banana Muffin</h3>
+              <p class="product-card-desc">Banana muffin topped with toasted walnut halves and fine powdered sugar.</p>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">₹250</span>
+              <a href="{{ url_for('muffin', muffin_id=4) }}" class="btn btn-sm btn-secondary">View Muffin</a>
+            </div>
+          </div>
+        </div>
+        <!-- 5. CARAMEL BANANA MUFFIN -->
+        <div class="product-card" data-category="sweet">
+          <div class="product-card-image">
+            <img src="{{ url_for('static', filename='images/caramel_banana_muffin.png') }}" alt="Caramel Banana Muffin">
+          </div>
+          <div class="product-card-content">
+            <div class="product-card-header">
+              <h3 class="product-card-title">Caramel Banana Muffin</h3>
+              <p class="product-card-desc">Layered with rich house salted caramel drizzle and crispy banana slices.</p>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">₹300</span>
+              <a href="{{ url_for('muffin', muffin_id=5) }}" class="btn btn-sm btn-secondary">View Muffin</a>
+            </div>
+          </div>
+        </div>
+        <!-- 6. CINNAMON BANANA MUFFIN -->
+        <div class="product-card" data-category="classic">
+          <div class="product-card-image">
+            <img src="{{ url_for('static', filename='images/cinnamon_muffin.png') }}" alt="Cinnamon Banana Muffin">
+          </div>
+          <div class="product-card-content">
+            <div class="product-card-header">
+              <h3 class="product-card-title">Cinnamon Banana Muffin</h3>
+              <p class="product-card-desc">Banana muffin topped with buttery cinnamon brown sugar streusel crumble.</p>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">₹300</span>
+              <a href="{{ url_for('muffin', muffin_id=6) }}" class="btn btn-sm btn-secondary">View Muffin</a>
+            </div>
+          </div>
+        </div>
+        <!-- 7. CHOCOLATE BANANA MUFFIN -->
+        <div class="product-card" data-category="sweet">
+          <div class="product-card-image">
+            <img src="{{ url_for('static', filename='images/chocolate_banana_muffin.png') }}" alt="Chocolate Banana Muffin">
+          </div>
+          <div class="product-card-content">
+            <div class="product-card-header">
+              <h3 class="product-card-title">Chocolate Banana Muffin</h3>
+              <p class="product-card-desc">A rich chocolate cocoa variation infused with caramelized sweet bananas.</p>
+            </div>
+            <div class="product-card-footer">
+              <span class="product-card-price">₹270</span>
+              <a href="{{ url_for('muffin', muffin_id=7) }}" class="btn btn-sm btn-secondary">View Muffin</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-disclaimer-banner">
+        🎓 <strong>Educational Web Application Notice:</strong> This is a fictional bakery application designed for frontend & backend learning.
+      </div>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>🍌 The Muffin Stop</h3>
+          <p>Your daily cozy destination for warm artisan banana muffins, ice cream pairings, and baked happiness.</p>
+        </div>
+        <div class="footer-column">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('muffins') }}">All Muffins</a></li>
+            <li><a href="{{ url_for('home') }}#our-story">Our Story</a></li>
+            <li><a href="{{ url_for('login') }}">Customer Login</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Account & Admin</h4>
+          <ul class="footer-links">
+            <li><a href="{{ url_for('profile') }}">My Account</a></li>
+            <li><a href="{{ url_for('admin') }}">Bakery Admin</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Visit Us</h4>
+          <p style="font-size: 0.9rem; color: #B59F8E;">
+            142 Bakery Lane, Sweetville<br>
+            Mon – Sun: 7:00 AM – 7:00 PM<br>
+            hello@muffinstop.local
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 The Muffin Stop Bakery. Handcrafted with care.
+      </div>
+    </div>
+  </footer>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

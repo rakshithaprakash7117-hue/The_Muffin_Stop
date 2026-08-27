@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bakery Admin Dashboard — The Muffin Stop</title>
+  <meta name="description" content="Administration panel UI for managing muffin menu items, customer orders, and bakery analytics.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <a href="'{{ url_for('home') }}" class="brand-logo">
+          <span class="logo-icon">🧁</span>
+          <span>The Muffin Stop <span style="font-size: 0.75rem; color: var(--color-caramel); border: 1px solid var(--color-caramel); padding: 0.15rem 0.5rem; border-radius: var(--radius-pill); margin-left: 0.5rem;">ADMIN</span></span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+          <li><a href="{{ url_for('muffins') }}" class="nav-link">Muffins</a></li>
+          <li><a href="{{ url_for('profile') }}" class="nav-link">Profile</a></li>
+          <li><a href="{{ url_for('admin') }}" class="nav-link active">Admin Dashboard</a></li>
+        </ul>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+          ☰
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container">
+      <!-- ADMIN HEADER -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <span class="section-subtitle">Bakery Management System</span>
+          <h1>Admin Dashboard Overview</h1>
+          <p>Control center for muffin inventory, customer orders, and users.</p>
+        </div>
+        <div style="display: flex; gap: 1rem;">
+          <a href="{{ url_for('muffins') }}" class="btn btn-sm btn-outline">View Public Site</a>
+          <button type="button" class="btn btn-sm btn-primary">+ Add New Muffin</button>
+        </div>
+      </div>
+      <!-- STATISTICS CARDS -->
+      <div class="admin-stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-info">
+            <h3>142</h3>
+            <p>Total Registered Users</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🧁</div>
+          <div class="stat-info">
+            <h3>7</h3>
+            <p>Active Muffin Varieties</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📦</div>
+          <div class="stat-info">
+            <h3>28</h3>
+            <p>Orders Received Today</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💵</div>
+          <div class="stat-info">
+            <h3>$384.50</h3>
+            <p>Today's Bakery Revenue</p>
+          </div>
+        </div>
+      </div>
+      <!-- SECTION 1: MUFFIN INVENTORY TABLE -->
+      <div class="dashboard-card">
+        <div class="dashboard-card-header">
+          <h3>Muffin Products Inventory</h3>
+          <span class="badge badge-category">7 Menu Items</span>
+        </div>
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><img src="{{ url_for('static', filename='images/banana_ice_cream_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
+                <td><strong>Banana Ice Cream Muffin</strong> <span class="badge badge-new" style="font-size: 0.65rem;">NEW</span></td>
+                <td>Signature Dessert</td>
+                <td><strong>$5.50</strong></td>
+                <td><span class="status-badge status-delivered">In Stock</span></td>
+                <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
+              </tr>
+              <tr>
+                <td><img src="{{ url_for('static', filename='images/classic_banana_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
+                <td><strong>Classic Banana Muffin</strong></td>
+                <td>Classic</td>
+                <td><strong>$3.50</strong></td>
+                <td><span class="status-badge status-delivered">In Stock</span></td>
+                <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
+              </tr>
+              <tr>
+                <td><img src="{{ url_for('static', filename='images/choco_chip_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
+                <td><strong>Choco-Chip Banana Muffin</strong></td>
+                <td>Chocolate</td>
+                <td><strong>$4.25</strong></td>
+                <td><span class="status-badge status-delivered">In Stock</span></td>
+                <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
+              </tr>
+              <tr>
+                <td><img src="{{ url_for('static', filename='images/walnut_banana_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
+                <td><strong>Walnut Banana Muffin</strong></td>
+                <td>Nuts & Grain</td>
+                <td><strong>$4.50</strong></td>
+                <td><span class="status-badge status-delivered">In Stock</span></td>
+                <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
+              </tr>
+              <tr>
+                <td><img src="{{ url_for('static', filename='images/caramel_banana_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
+                <td><strong>Caramel Banana Muffin</strong></td>
+                <td>Sweet Topping</td>
+                <td><strong>$4.75</strong></td>
+                <td><span class="status-badge status-delivered">In Stock</span></td>
+                <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
+              </tr>
+              <tr>
+                <td><img src="{{ url_for('static', filename='images/chocolate_banana_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
+                <td><strong>Cinnamon Banana Muffin</strong></td>
+                <td>Streusel Crumble</td>
+                <td><strong>$4.25</strong></td>
+                <td><span class="status-badge status-delivered">In Stock</span></td>
+                <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
+              </tr>
+              <tr>
+                <td><img src="{{ url_for('static', filename='images/cinnamon_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
+                <td><strong>Chocolate Banana Muffin</strong></td>
+                <td>Double Cocoa</td>
+                <td><strong>$4.50</strong></td>
+                <td><span class="status-badge status-delivered">In Stock</span></td>
+                <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- SECTION 2: RECENT ORDERS TABLE -->
+      <div class="dashboard-card">
+        <div class="dashboard-card-header">
+          <h3>Today's Bakery Orders</h3>
+          <span class="badge badge-category">Live Activity</span>
+        </div>
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Order #</th>
+                <th>Customer</th>
+                <th>Items Ordered</th>
+                <th>Total</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>#MS-1088</strong></td>
+                <td>Alex Rivera (alex_muffin)</td>
+                <td>2x Banana Ice Cream Muffin</td>
+                <td>$11.00</td>
+                <td><span class="status-badge status-pending">In Prep</span></td>
+              </tr>
+              <tr>
+                <td><strong>#MS-1087</strong></td>
+                <td>Sarah Jenkins (sarah_j)</td>
+                <td>1x Caramel Banana Muffin</td>
+                <td>$4.75</td>
+                <td><span class="status-badge status-delivered">Completed</span></td>
+              </tr>
+              <tr>
+                <td><strong>#MS-1086</strong></td>
+                <td>David Miller (dave_m)</td>
+                <td>6x Classic Banana Muffin Box</td>
+                <td>$21.00</td>
+                <td><span class="status-badge status-delivered">Completed</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- SECTION 3: REGISTERED USERS TABLE -->
+      <div class="dashboard-card">
+        <div class="dashboard-card-header">
+          <h3>Registered Bakery Customers</h3>
+          <span class="badge badge-category">User Directory</span>
+        </div>
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Email Address</th>
+                <th>Role</th>
+                <th>Joined Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#USR-001</td>
+                <td><strong>admin</strong></td>
+                <td>admin@muffinstop.local</td>
+                <td><span class="status-badge status-active">Administrator</span></td>
+                <td>Jan 05, 2025</td>
+              </tr>
+              <tr>
+                <td>#USR-042</td>
+                <td><strong>alex_muffin</strong></td>
+                <td>alex@example.com</td>
+                <td><span class="status-badge status-delivered">Customer</span></td>
+                <td>Mar 12, 2025</td>
+              </tr>
+              <tr>
+                <td>#USR-089</td>
+                <td><strong>sarah_j</strong></td>
+                <td>sarah.j@example.com</td>
+                <td><span class="status-badge status-delivered">Customer</span></td>
+                <td>Jun 24, 2025</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-disclaimer-banner">
+        🎓 <strong>Educational Web Application Notice:</strong> This is a fictional bakery application designed for frontend & backend learning.
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 The Muffin Stop Bakery — Internal Admin Management Interface
+      </div>
+    </div>
+  </footer>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

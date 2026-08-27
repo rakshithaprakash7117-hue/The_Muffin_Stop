@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Customer Profile — The Muffin Stop</title>
+  <meta name="description" content="View your account details, favorite muffins, and past bakery order history at The Muffin Stop.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <a href="{{ url_for('home') }}" class="brand-logo">
+          <span class="logo-icon">🍌</span>
+          <span>The Muffin Stop</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="{{ url_for('home') }}" class="nav-link active">Home</a></li>
+          <li><a href="{{ url_for('muffins') }}" class="nav-link">Muffins</a></li>
+          <li><a href="{{ url_for('home') }}#our-story" class="nav-link">Our Story</a></li>
+          <li><a href="{{ url_for('login') }}" class="nav-link">Login</a></li>
+          <li><a href="{{ url_for('profile') }}" class="nav-link">Profile</a></li>
+          <li><a href="{{ url_for('admin') }}" class="nav-link btn btn-sm btn-secondary">Admin Panel</a></li>
+        </ul>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+          ☰
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container">
+      <!-- DASHBOARD HEADER -->
+      <div style="margin-bottom: 2.5rem;">
+        <span class="section-subtitle">Customer Portal</span>
+        <h1>Welcome Back, Alex!</h1>
+        <p>Manage your account settings, favorite banana muffin picks, and bakery order history.</p>
+      </div>
+      <div class="dashboard-grid">
+        <!-- SIDEBAR: USER INFO -->
+        <aside class="profile-sidebar">
+          <div class="avatar-wrapper">
+            <span>👤</span>
+          </div>
+          <div>
+            <h3 style="font-size: 1.35rem;">Alex Rivera</h3>
+            <p style="font-size: 0.875rem;">@alex_muffin</p>
+          </div>
+          <span class="badge badge-featured">⭐ VIP MUFFIN LOVER</span>
+          <div style="width: 100%; border-top: 1px solid var(--border-color); padding-top: 1rem; text-align: left; font-size: 0.9rem;">
+            <p style="margin-bottom: 0.5rem;"><strong>Email:</strong> alex@example.com</p>
+            <p style="margin-bottom: 0.5rem;"><strong>Member Since:</strong> March 2025</p>
+            <p><strong>Loyalty Points:</strong> 240 pts</p>
+          </div>
+          <div style="width: 100%; margin-top: 0.5rem;">
+            <a href="{{ url_for('login') }}" class="btn btn-outline btn-full btn-sm">
+              Log Out 🚪
+            </a>
+          </div>
+        </aside>
+        <!-- MAIN DASHBOARD CONTENT -->
+        <div>
+          <!-- FAVORITE MUFFIN SPOTLIGHT CARD -->
+          <div class="dashboard-card" style="background: linear-gradient(135deg, #FFFDF9 0%, #FEF3C7 100%); border-color: #FDE68A;">
+            <div class="dashboard-card-header" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+              <div>
+                <span class="badge badge-new" style="margin-bottom: 0.5rem;">💛 YOUR ALL-TIME FAVORITE</span>
+                <h2>The Banana Ice Cream Muffin</h2>
+                <p>You've ordered this signature creation 6 times this month!</p>
+              </div>
+              <a href="{{ url_for ('muffin',muffin_id=1) }}" class="btn btn-primary btn-sm">Order Again 🍦</a>
+            </div>
+          </div>
+          <!-- RECENT ORDERS CARD -->
+          <div class="dashboard-card">
+            <div class="dashboard-card-header">
+              <h3>Recent Bakery Orders</h3>
+              <a href="{{ url_for ('muffin',muffin_id=6) }}" class="btn btn-sm btn-secondary">Order Fresh Muffins</a>
+            </div>
+            <div class="data-table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Order #</th>
+                    <th>Date</th>
+                    <th>Items Purchased</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>#MS-1084</strong></td>
+                    <td>Aug 20, 2026</td>
+                    <td>2x Banana Ice Cream Muffin</td>
+                    <td><strong>$11.00</strong></td>
+                    <td><span class="status-badge status-delivered">Delivered</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>#MS-1062</strong></td>
+                    <td>Aug 14, 2026</td>
+                    <td>1x Walnut Banana, 1x Choco-Chip</td>
+                    <td><strong>$8.75</strong></td>
+                    <td><span class="status-badge status-delivered">Delivered</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>#MS-1019</strong></td>
+                    <td>Aug 02, 2026</td>
+                    <td>4x Classic Banana Muffin</td>
+                    <td><strong>$14.00</strong></td>
+                    <td><span class="status-badge status-delivered">Delivered</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- ACCOUNT PREFERENCES CARD -->
+          <div class="dashboard-card">
+            <div class="dashboard-card-header">
+              <h3>Delivery Preferences</h3>
+              <button type="button" class="btn btn-sm btn-outline">Edit Preferences</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; font-size: 0.95rem;">
+              <div>
+                <p style="font-weight: 700; color: var(--color-chocolate);">Default Address:</p>
+                <p>742 Evergreen Terrace<br>Springfield, OR 97477</p>
+              </div>
+              <div>
+                <p style="font-weight: 700; color: var(--color-chocolate);">Special Instructions:</p>
+                <p>"Please warm up the Banana Ice Cream Muffin before pickup!"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-disclaimer-banner">
+        🎓 <strong>Educational Web Application Notice:</strong> This is a fictional bakery application designed for frontend & backend learning.
+      </div>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>🍌 The Muffin Stop</h3>
+          <p>Your daily cozy destination for warm artisan banana muffins, ice cream pairings, and baked happiness.</p>
+        </div>
+        <div class="footer-column">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="{{ url_for ('home') }}">Home</a></li>
+            <li><a href="{{ url_for ('muffins') }}">All Muffins</a></li>
+            <li><a href="{{ url_for('home') }}#our-story">Our Story</a></li>
+            <li><a href="{{ url_for ('login') }}">Customer Login</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Account & Admin</h4>
+          <ul class="footer-links">
+            <li><a href="{{ url_for ('profile') }}">My Account</a></li>
+            <li><a href="{{ url_for ('admin') }}">Bakery Admin</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Visit Us</h4>
+          <p style="font-size: 0.9rem; color: #B59F8E;">
+            142 Bakery Lane, Sweetville<br>
+            Mon – Sun: 7:00 AM – 7:00 PM<br>
+            hello@muffinstop.local
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 The Muffin Stop Bakery. Handcrafted with care.
+      </div>
+    </div>
+  </footer>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

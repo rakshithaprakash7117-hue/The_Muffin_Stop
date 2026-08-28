@@ -2,60 +2,17 @@ from flask import Flask, render_template,request,redirect,url_for,session
 import sqlite3
 from werkzeug.security import check_password_hash
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "dev-only-secret")
+app.secret_key = os.environ["SECRET_KEY"]
 
 def get_db_connection():
     connection = sqlite3.connect("muffin_stop.db")
     connection.row_factory = sqlite3.Row
     return connection
-
-#muffin ids
-muffins_data = {
-    1: {
-        "name": "Banana Ice Cream Muffin",
-        "price": 5.50,
-        "description": "Warm banana muffin paired with creamy banana ice cream and caramel sauce.",
-        "image": "banana_ice_cream_muffin.png"
-    },
-    2: {
-        "name": "Classic Banana Muffin",
-        "price": 3.50,
-        "description": "Simple, moist, golden banana muffin baked with ripe bananas.",
-        "image": "classic_banana_muffin.png"
-    },
-    3: {
-        "name": "Choco-Chip Banana Muffin",
-        "price": 4.25,
-        "description": "Banana muffin packed with rich chocolate chips.",
-        "image": "choco_chip_muffin.png"
-    },
-    4: {
-        "name": "Walnut Banana Muffin",
-        "price": 4.50,
-        "description": "Banana muffin topped with toasted walnut pieces.",
-        "image": "walnut_banana_muffin.png"
-    },
-    5: {
-        "name": "Caramel Banana Muffin",
-        "price": 4.75,
-        "description": "Banana muffin finished with a rich caramel drizzle.",
-        "image": "caramel_banana_muffin.png"
-    },
-    6: {
-        "name": "Cinnamon Banana Muffin",
-        "price": 4.25,
-        "description": "Banana muffin topped with buttery cinnamon brown sugar crumble.",
-        "image": "cinnamon_muffin.png"
-    },
-    7: {
-        "name": "Chocolate Banana Muffin",
-        "price": 4.50,
-        "description": "Rich chocolate banana muffin with cocoa and sweet banana.",
-        "image": "chocolate_banana_muffin.png"
-    }
-}
 
 @app.route("/")
 def home():
@@ -96,18 +53,38 @@ def login():
 
 @app.route("/muffins")
 def muffins():
-    return render_template("muffins.html")
+    connection = get_db_connection()
+
+    muffins = connection.execute(
+        "SELECT * FROM muffins"
+    ).fetchall()
+
+    connection.close()
+
+    return render_template(
+        "muffins.html",
+        muffins=muffins
+    )
 
 
 @app.route("/muffin/<int:muffin_id>")
 def muffin(muffin_id):
-    muffin = muffins_data.get(muffin_id)
+    connection = get_db_connection()
+
+    muffin = connection.execute(
+        "SELECT * FROM muffins WHERE id = ?",
+        (muffin_id,)
+    ).fetchone()
+
+    connection.close()
 
     if muffin is None:
         return "Muffin not found", 404
 
-    return render_template("muffin.html", muffin=muffin)
-
+    return render_template(
+        "muffin.html",
+        muffin=muffin
+    )
 
 @app.route("/profile")
 def profile():
@@ -140,8 +117,16 @@ def admin():
         "SELECT id, username, email, role FROM users"
     ).fetchall()
 
+    muffins = connection.execute(
+        "SELECT * FROM muffins"
+    ).fetchall()
+
     user_count = connection.execute(
         "SELECT COUNT(*) FROM users"
+    ).fetchone()[0]
+
+    muffin_count = connection.execute(
+        "SELECT COUNT(*) FROM muffins"
     ).fetchone()[0]
 
     connection.close()
@@ -149,7 +134,9 @@ def admin():
     return render_template(
         "admin.html",
         users=users,
-        user_count=user_count
+        muffins=muffins,
+        user_count=user_count,
+        muffin_count=muffin_count
     )
 
 @app.route("/logout")

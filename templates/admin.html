@@ -55,7 +55,7 @@
         <div class="stat-card">
           <div class="stat-icon">🧁</div>
           <div class="stat-info">
-            <h3>7</h3>
+            <h3>{{ muffin_count }}</h3>
             <p>Active Muffin Varieties</p>
           </div>
         </div>
@@ -78,7 +78,7 @@
       <div class="dashboard-card">
         <div class="dashboard-card-header">
           <h3>Muffin Products Inventory</h3>
-          <span class="badge badge-category">7 Menu Items</span>
+          <span class="badge badge-category">{{ muffin_count }} Menu Items</span>
         </div>
         <div class="data-table-wrapper">
           <table class="data-table">
@@ -93,62 +93,33 @@
               </tr>
             </thead>
             <tbody>
+              {% for muffin in muffins %}
               <tr>
-                <td><img src="{{ url_for('static', filename='images/banana_ice_cream_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
-                <td><strong>Banana Ice Cream Muffin</strong> <span class="badge badge-new" style="font-size: 0.65rem;">NEW</span></td>
-                <td>Signature Dessert</td>
-                <td><strong>$5.50</strong></td>
-                <td><span class="status-badge status-delivered">In Stock</span></td>
-                <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
+                <td>
+                  <img src="{{ url_for('static', filename='images/' + muffin['image']) }}" alt="{{ muffin['name'] }}" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;">
+                </td>
+                <td>
+                  <strong>{{ muffin['name'] }}</strong>
+                  {% if muffin['is_new'] %}
+                    <span class="badge badge-new" style="font-size: 0.65rem;">NEW</span>
+                  {% endif %}
+                  </td>
+                <td>{{ muffin['category'] }}</td>
+                <td>
+                  <strong>${{ "%.2f"|format(muffin['price']) }}</strong>
+               </td>
+                <td>
+                  {% if muffin['stock'] > 0 %}
+                    <span class="status-badge status-delivered">In Stock ({{ muffin['stock'] }})</span>
+                  {% else %}
+                    <span class="status-badge status-pending">Out of Stock</span>
+                  {% endif %}
+                </td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-outline">Edit</button>
+               </td>
               </tr>
-              <tr>
-                <td><img src="{{ url_for('static', filename='images/classic_banana_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
-                <td><strong>Classic Banana Muffin</strong></td>
-                <td>Classic</td>
-                <td><strong>$3.50</strong></td>
-                <td><span class="status-badge status-delivered">In Stock</span></td>
-                <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
-              </tr>
-              <tr>
-                <td><img src="{{ url_for('static', filename='images/choco_chip_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
-                <td><strong>Choco-Chip Banana Muffin</strong></td>
-                <td>Chocolate</td>
-                <td><strong>$4.25</strong></td>
-                <td><span class="status-badge status-delivered">In Stock</span></td>
-                <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
-              </tr>
-              <tr>
-                <td><img src="{{ url_for('static', filename='images/walnut_banana_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
-                <td><strong>Walnut Banana Muffin</strong></td>
-                <td>Nuts & Grain</td>
-                <td><strong>$4.50</strong></td>
-                <td><span class="status-badge status-delivered">In Stock</span></td>
-                <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
-              </tr>
-              <tr>
-                <td><img src="{{ url_for('static', filename='images/caramel_banana_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
-                <td><strong>Caramel Banana Muffin</strong></td>
-                <td>Sweet Topping</td>
-                <td><strong>$4.75</strong></td>
-                <td><span class="status-badge status-delivered">In Stock</span></td>
-                <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
-              </tr>
-              <tr>
-                <td><img src="{{ url_for('static', filename='images/cinnamon_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
-                <td><strong>Cinnamon Banana Muffin</strong></td>
-                <td>Streusel Crumble</td>
-                <td><strong>$4.25</strong></td>
-                <td><span class="status-badge status-delivered">In Stock</span></td>
-                <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
-              </tr>
-              <tr>
-                <td><img src="{{ url_for('static', filename='images/chocolate_banana_muffin.png') }}" alt="Muffin" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
-                <td><strong>Chocolate Banana Muffin</strong></td>
-                <td>Double Cocoa</td>
-                <td><strong>$4.50</strong></td>
-                <td><span class="status-badge status-delivered">In Stock</span></td>
-                <td><button type="button" class="btn btn-sm btn-outline">Edit</button></td>
-              </tr>
+                {% endfor %}
             </tbody>
           </table>
         </div>

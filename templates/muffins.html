@@ -42,130 +42,35 @@
       </div>
       <!-- FILTER TABS -->
       <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">All Muffins (7)</button>
+        <button class="filter-btn active" data-filter="all">All Muffins ({{ muffin_count }})</button>
         <button class="filter-btn" data-filter="new">✨ New Launch</button>
         <button class="filter-btn" data-filter="classic">Classic & Nut</button>
         <button class="filter-btn" data-filter="sweet">Sweet & Chocolate</button>
       </div>
       <!-- PRODUCTS GRID -->
       <div class="product-grid">
-        <!-- 1. BANANA ICE CREAM MUFFIN (NEW) -->
-        <div class="product-card" data-category="new">
+        {% for muffin in muffins %}
+        <div class="product-card" data-category="{{ muffin['category']|lower }}">
           <div class="product-card-image">
-            <img src="{{ url_for('static', filename='images/banana_ice_cream_muffin.png') }}" alt="The Banana Ice Cream Muffin">
-            <span class="badge badge-new product-card-badge">✨ NEW LAUNCH</span>
+            <img src="{{ url_for('static', filename='images/' + muffin['image']) }}" alt="{{ muffin['name'] }}">
+            {% if muffin['is_new'] %}
+              <span class="badge badge-new product-card-badge">✨ NEW LAUNCH</span>
+            {% endif %}
           </div>
           <div class="product-card-content">
             <div class="product-card-header">
-              <h3 class="product-card-title">Banana Ice Cream Muffin</h3>
-              <p class="product-card-desc">Warm banana muffin paired with a scoop of creamy banana ice cream & caramel sauce.</p>
+              <h3 class="product-card-title">{{ muffin['name'] }}</h3>
+              <p class="product-card-desc">{{ muffin['description'] }}</p>
             </div>
             <div class="product-card-footer">
-              <span class="product-card-price">₹349</span>
-              <a href="{{ url_for('muffin', muffin_id=1) }}"
-                 class="btn btn-sm btn-secondary">
-                 View Muffin
+              <span class="product-card-price">${{ "%.2f"|format(muffin['price']) }}</span>
+              <a href="{{ url_for('muffin', muffin_id=muffin['id']) }}" class="btn btn-sm btn-secondary">
+                View Muffin
               </a>
             </div>
           </div>
         </div>
-        <!-- 2. CLASSIC BANANA MUFFIN -->
-        <div class="product-card" data-category="classic">
-          <div class="product-card-image">
-            <img src="{{ url_for('static', filename='images/classic_banana_muffin.png') }}" alt="Classic Banana Muffin">
-            <span class="badge badge-featured product-card-badge">Original</span>
-          </div>
-          <div class="product-card-content">
-            <div class="product-card-header">
-              <h3 class="product-card-title">Classic Banana Muffin</h3>
-              <p class="product-card-desc">Simple, moist, golden banana muffin baked with pure ripe organic bananas.</p>
-            </div>
-            <div class="product-card-footer">
-              <span class="product-card-price">₹210</span>
-             <a href="{{ url_for('muffin', muffin_id=2) }}" class="btn btn-sm btn-secondary">View Muffin</a>
-            </div>
-          </div>
-        </div>
-        <!-- 3. CHOCO-CHIP BANANA MUFFIN -->
-        <div class="product-card" data-category="sweet">
-          <div class="product-card-image">
-            <img src="{{ url_for('static', filename='images/choco_chip_muffin.png') }}" alt="Choco-Chip Banana Muffin">
-          </div>
-          <div class="product-card-content">
-            <div class="product-card-header">
-              <h3 class="product-card-title">Choco-Chip Banana Muffin</h3>
-              <p class="product-card-desc">Packed with dark chocolate chips and finished with a silky chocolate drizzle.</p>
-            </div>
-            <div class="product-card-footer">
-              <span class="product-card-price">₹250</span>
-              <a href="{{ url_for('muffin', muffin_id=3) }}" class="btn btn-sm btn-secondary">View Muffin</a>
-            </div>
-          </div>
-        </div>
-        <!-- 4. WALNUT BANANA MUFFIN -->
-        <div class="product-card" data-category="classic">
-          <div class="product-card-image">
-            <img src="{{ url_for('static', filename='images/walnut_banana_muffin.png') }}" alt="Walnut Banana Muffin">
-          </div>
-          <div class="product-card-content">
-            <div class="product-card-header">
-              <h3 class="product-card-title">Walnut Banana Muffin</h3>
-              <p class="product-card-desc">Banana muffin topped with toasted walnut halves and fine powdered sugar.</p>
-            </div>
-            <div class="product-card-footer">
-              <span class="product-card-price">₹250</span>
-              <a href="{{ url_for('muffin', muffin_id=4) }}" class="btn btn-sm btn-secondary">View Muffin</a>
-            </div>
-          </div>
-        </div>
-        <!-- 5. CARAMEL BANANA MUFFIN -->
-        <div class="product-card" data-category="sweet">
-          <div class="product-card-image">
-            <img src="{{ url_for('static', filename='images/caramel_banana_muffin.png') }}" alt="Caramel Banana Muffin">
-          </div>
-          <div class="product-card-content">
-            <div class="product-card-header">
-              <h3 class="product-card-title">Caramel Banana Muffin</h3>
-              <p class="product-card-desc">Layered with rich house salted caramel drizzle and crispy banana slices.</p>
-            </div>
-            <div class="product-card-footer">
-              <span class="product-card-price">₹300</span>
-              <a href="{{ url_for('muffin', muffin_id=5) }}" class="btn btn-sm btn-secondary">View Muffin</a>
-            </div>
-          </div>
-        </div>
-        <!-- 6. CINNAMON BANANA MUFFIN -->
-        <div class="product-card" data-category="classic">
-          <div class="product-card-image">
-            <img src="{{ url_for('static', filename='images/cinnamon_muffin.png') }}" alt="Cinnamon Banana Muffin">
-          </div>
-          <div class="product-card-content">
-            <div class="product-card-header">
-              <h3 class="product-card-title">Cinnamon Banana Muffin</h3>
-              <p class="product-card-desc">Banana muffin topped with buttery cinnamon brown sugar streusel crumble.</p>
-            </div>
-            <div class="product-card-footer">
-              <span class="product-card-price">₹300</span>
-              <a href="{{ url_for('muffin', muffin_id=6) }}" class="btn btn-sm btn-secondary">View Muffin</a>
-            </div>
-          </div>
-        </div>
-        <!-- 7. CHOCOLATE BANANA MUFFIN -->
-        <div class="product-card" data-category="sweet">
-          <div class="product-card-image">
-            <img src="{{ url_for('static', filename='images/chocolate_banana_muffin.png') }}" alt="Chocolate Banana Muffin">
-          </div>
-          <div class="product-card-content">
-            <div class="product-card-header">
-              <h3 class="product-card-title">Chocolate Banana Muffin</h3>
-              <p class="product-card-desc">A rich chocolate cocoa variation infused with caramelized sweet bananas.</p>
-            </div>
-            <div class="product-card-footer">
-              <span class="product-card-price">₹270</span>
-              <a href="{{ url_for('muffin', muffin_id=7) }}" class="btn btn-sm btn-secondary">View Muffin</a>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
       </div>
     </div>
   </main>
